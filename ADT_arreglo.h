@@ -54,16 +54,3 @@ class Arreglo{
             else cout << "No se puede abrir el archivo" << endl;
         }
 };
-
-int main(){
-    Arreglo miArreglo;
-    int dato;
-    
-    miArreglo.leer("numeros.txt");
-    cout << "Los numeros leidos son: ";
-    miArreglo.imprimir();
-    dato = miArreglo.borrar();
-    cout << "El elemento buscado es: " << dato << endl;
-    cout << "El nuevo arreglo es: ";
-    miArreglo.imprimir();
-}
