@@ -20,7 +20,15 @@ class Arreglo{
         void insertion_sort();
         void merge_sort(int, int);
         void mezcla(int, int, int);
+        void quick_sort(int, int);
+        void particion(int, int, int);
+        int get_tam();
+        void intercambiar_p(int*, int*);
 };
+
+int Arreglo::get_tam(){
+    return tam;
+}
 
 void Arreglo::insertar(int dato){
     if (tam < MAX){
@@ -59,6 +67,14 @@ void Arreglo::intercambiar(int pos1, int pos2){
     datos[pos1]=datos[pos2];
     datos[pos2]=tmp;
 }
+
+void Arreglo::intercambiar_p(int *a, int *b){
+    int temp;
+    temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
 void Arreglo::leer(string archivo){
     int n, numero;
     ifstream miArchivo(archivo);
@@ -117,14 +133,61 @@ void Arreglo::merge_sort(int inicio, int fin){
 
 void Arreglo::mezcla(int inicio, int mitad, int fin){
     int i, j, k;
-    
+
     i = inicio;
     j = mitad + 1;
     k = inicio;
 
-    while( i <= mitad && j <= fin){
-        if(datos[i] < datos[j]){
+    int aux[MAX];
 
+    while(i <=  mitad && j <= fin){
+        if(datos[i] < datos[j]){
+            aux[k] = datos[i];
+            i += 1;
+        } else {
+            aux[k] = datos[j];
+            j += 1;
+        }
+        k++;
+    }
+
+    while(i <= mitad){
+        aux[k] = datos[i];
+        i++;
+        k++;
+    }
+
+    while(j <= fin){
+        aux[k] = datos[j];
+        j++;
+        k++;
+    }
+
+
+    for(i = inicio; i < k; i++){
+        datos[i] = aux[i];
+    }
+}
+
+void Arreglo::quick_sort(int inicio, int fin){
+    int pivote = 0;
+    if(inicio <  fin){
+        particion(inicio, fin, pivote);
+        quick_sort(inicio, pivote-1);
+        quick_sort(pivote+1, fin);
+    }
+}
+
+void Arreglo::particion(int inicio, int fin, int pivote){
+    int elempivote = datos[inicio];
+    int j = inicio;
+
+    for(int i = inicio + 1; i <= fin; i++){
+        if(datos[i] < elempivote){
+            j = j+1;
+            intercambiar(i, j);
         }
     }
+    pivote = j;
+    intercambiar(inicio, pivote);
 }

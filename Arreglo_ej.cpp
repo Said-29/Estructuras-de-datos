@@ -8,7 +8,8 @@ int main(){
 
     Arreglo arr;
     arr.leer("numeros.txt");
-    arr.insertion_sort();
+    arr.imprimir();
+    arr.merge_sort(0, arr.get_tam()-1);
     arr.imprimir();
     return 0;
 }
