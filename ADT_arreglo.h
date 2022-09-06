@@ -21,7 +21,7 @@ class Arreglo{
         void merge_sort(int, int);
         void mezcla(int, int, int);
         void quick_sort(int, int);
-        void particion(int, int, int);
+        int particion(int, int);
         int get_tam();
         void intercambiar_p(int*, int*);
 };
@@ -99,7 +99,7 @@ void Arreglo::bubble_sort(){
         for(int j = 0; j<tam-1-i; j++){
 
             if(datos[j+1]<datos[j]){
-                intercambiar(j, j+1);
+                intercambiar_p(&datos[j], &datos[j+1]);
                 interruptor = true;
             }
 
@@ -170,24 +170,42 @@ void Arreglo::mezcla(int inicio, int mitad, int fin){
 }
 
 void Arreglo::quick_sort(int inicio, int fin){
-    int pivote = 0;
+    int pivote;
     if(inicio <  fin){
-        particion(inicio, fin, pivote);
+        pivote = particion(inicio, fin);
         quick_sort(inicio, pivote-1);
         quick_sort(pivote+1, fin);
     }
 }
 
-void Arreglo::particion(int inicio, int fin, int pivote){
-    int elempivote = datos[inicio];
-    int j = inicio;
+int Arreglo::particion(int inicio, int fin){
+    int pivote = datos[inicio];
+    int count = 0;
 
     for(int i = inicio + 1; i <= fin; i++){
-        if(datos[i] < elempivote){
-            j = j+1;
-            intercambiar(i, j);
+        if(datos[i] <= pivote){
+            count++;
         }
     }
-    pivote = j;
-    intercambiar(inicio, pivote);
+
+    int pivote_index = inicio + count;
+    intercambiar_p(&datos[pivote_index], &datos[inicio]);
+
+    int i = inicio;
+    int j = fin;
+
+    while (i < pivote_index && j > pivote_index){
+        while(datos[i] <= pivote){
+            i++;
+        }
+
+        while(datos[j] > pivote){
+            j--;
+        }
+
+        if(i < pivote_index && j > pivote_index){
+            intercambiar_p(&datos[i++], &datos[j--]);
+        }
+    }
+    
 }
