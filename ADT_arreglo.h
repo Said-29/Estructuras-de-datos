@@ -207,5 +207,5 @@ int Arreglo::particion(int inicio, int fin){
             intercambiar_p(&datos[i++], &datos[j--]);
         }
     }
-    
+    return pivote_index;
 }
