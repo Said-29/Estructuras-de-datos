@@ -24,6 +24,8 @@ class Arreglo{
         int particion(int, int);
         int get_tam();
         void intercambiar_p(int*, int*);
+        int sequential_search(int);
+        int binary_search(int);
 };
 
 int Arreglo::get_tam(){
@@ -208,4 +210,36 @@ int Arreglo::particion(int inicio, int fin){
         }
     }
     return pivote_index;
+}
+
+int Arreglo::sequential_search(int num){
+    int ans = -1;
+    for (int i = 0; i < tam - 1; i++){
+        if(num == datos[i]){
+            ans = i;
+            break;
+        }
+    }
+    return ans;
+}
+
+int Arreglo::binary_search(int num){
+    int bajo, central, alto, valor_central;
+
+    bajo = 0;
+    alto = tam - 1;
+
+    while(bajo <= alto){
+        central = (bajo+alto)/2;
+        valor_central = datos[central];
+        if(valor_central == num){
+            return central;
+        } else if (valor_central < num){
+            bajo = central + 1;
+        } else {
+            alto = central - 1;
+        }
+    }
+    
+    return -1;
 }
