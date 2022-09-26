@@ -71,14 +71,16 @@ void leer(string archivo, vector<vector<string>> &barcos){
     File.close();
 }
 
+//Muestra todos los barcos
 void show(vector<vector<string>> &barcos){
     for(int i = 0; i < barcos.size(); i++){
         cout << "Clave: " << barcos[i][0] << " || Fecha: " << barcos[i][1] << endl;
     }
 }
 
+//Muestra la clave y la fecha del barco en cierta posicion
 void show_barco(vector<vector<string>> &barcos, int pos){
-    cout << "Clave: " << barcos.at(pos)[0] << " || Fecha: " << barcos.at(pos)[1] << " || Puerto: " << barcos.at(pos)[3] << endl;
+    cout << "Clave: " << barcos.at(pos)[0] << " || Fecha: " << barcos.at(pos)[1] << endl;
 }
 
 int binary_search(vector<vector<string>> &barcos, string CLAVE){
@@ -104,14 +106,29 @@ int binary_search(vector<vector<string>> &barcos, string CLAVE){
     return -1;
 }
 
-void sort_dups_by_date(vector<vector<string>> aux_barcos){
-    string clave, fecha;
-    vector<int> dups;
-    for(int i = 0; i < aux_barcos.size(); i++){
-        clave = aux_barcos[i][0];
-        if(clave == aux_barcos[i+1][0]){
-            
+void sort_by_date(vector<vector<string>> &aux_barcos) {
+    // Usando selection sort
+    int menor;
+    for(int i = 0; i <= aux_barcos.size(); i++) {
+        menor = i; // Asignamos la posicion actual como la menor
+
+        // Este FOR se repite en j hasta el final del arreglo por cada i
+        for(int j = i + 1; j < aux_barcos.size(); j++) {
+
+            // Comparamos si el dato en la pos j es menor al dato menor actual
+            // En caso de ser lo, la pos menor es ahora j
+            if((aux_barcos[j][0] == aux_barcos[menor][0]) && (aux_barcos[j][1] < aux_barcos[menor][1])) {
+                menor = j;
+            }
+
         }
+        // Cada vez que el for anidado da una vuelta se hace el intercambio
+        // de elementos, sustituyendo el objeto en la pos i actual por uno menor 
+        // que se ha encontrado
+        vector<string> temp;
+        temp = aux_barcos[i];
+        aux_barcos[i] = aux_barcos[menor];
+        aux_barcos[menor] = temp;
     }
 }
 
@@ -158,6 +175,7 @@ int main(){
     }
 
     bubble_sort(aux_barcos);
+    sort_by_date(aux_barcos);
 
     for(int i = 0; i < aux_barcos.size(); i++){
         show_barco(aux_barcos, i);

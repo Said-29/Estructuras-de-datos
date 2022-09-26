@@ -45,37 +45,42 @@ int main(){
         arr.imprimir();
 
     } else if(ans == 2){
-        int num;
-        int pos;
+        int num, pos, num_busq;
 
-        cout << "Numero a buscar: " << endl;
-        cin >> num;
+        cout << "Cantidad de busquedas: " << endl;
+        cin >> num_busq;
 
-        cout << "Opciones: " << endl;
-        cout << "1) Sequential search" << endl;
-        cout << "2) Binary search" << endl;
+        while(num_busq > 0){
+            cout << "Numero a buscar: " << endl;
+            cin >> num;
 
-        cin >> ans;
+            cout << "Opciones: " << endl;
+            cout << "1) Sequential search" << endl;
+            cout << "2) Binary search" << endl;
 
-        switch (ans)
-        {
-        case 1:
-            pos = arr.sequential_search(num);
-            cout << "Lista de datos: " << endl;
-            arr.imprimir();
-            cout << "Posicion: " << endl;            
-            cout << pos+1 << endl;
-            break;
-        case 2:
-            arr.merge_sort(0, arr.get_tam()-1);
-            pos = arr.binary_search(num);
-            cout << "Lista de datos: " << endl;
-            arr.imprimir();
-            cout << "Posicion: " << endl;
-            cout << pos+1 << endl;
-            break;
-        default:
-            break;
+            cin >> ans;
+
+            switch (ans)
+            {
+            case 1:
+                pos = arr.sequential_search(num);
+                cout << "Lista de datos: " << endl;
+                arr.imprimir();
+                cout << "Posicion: " << endl;            
+                cout << pos+1 << endl;
+                break;
+            case 2:
+                arr.merge_sort(0, arr.get_tam()-1);
+                pos = arr.binary_search(num);
+                cout << "Lista de datos: " << endl;
+                arr.imprimir();
+                cout << "Posicion: " << endl;
+                cout << pos+1 << endl;
+                break;
+            default:
+                break;
+            }
+            num_busq--;
         }
     }
 
