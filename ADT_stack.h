@@ -9,8 +9,7 @@ using namespace std;
 
 class Stack{
     private:
-        int datos[MAX];
-        int tope;
+        Lista datos;
     public:
         Stack();
         void push(int);
@@ -21,17 +20,16 @@ class Stack{
 };
 
 void Stack::push(int valor){
-    tope++;
-    datos[tope] = valor;
+    datos.insertarInicio(valor);
 }
 
 int Stack::pop(){
-    int v = datos[tope];
-    tope--;
+    int v = datos.get_first();
+    datos.del(v);
     return v;
 }
 
 int Stack::top(){
-    int v = datos[tope];
+    int v = datos.get_first();
     return v;
 }

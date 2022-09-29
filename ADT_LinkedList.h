@@ -2,6 +2,18 @@
 #include <iostream>
 using namespace std;
 
+class NodoLista {
+    public:
+        int info; // Variable donde guardaremos el dato que tendra este nodo
+        NodoLista *next; // Apuntador de tipo clase hacia el siguiente nodo
+
+        NodoLista(int dato) {
+            info = dato; // Guarda el dato recibido en el nodo actual
+            next = nullptr; // Se le asigna nullptr para que no apunte a una direccion basura
+        }
+};
+
+// Clase Lista ligada
 class Lista {
     private:
         NodoLista *primero; // Crea un pointer de clase NodoLista para el primer nodo
@@ -129,15 +141,43 @@ class Lista {
             }
         }
 
-};
-
-class NodoLista {
-    public:
-        int info; // Variable donde guardaremos el dato que tendra este nodo
-        NodoLista *next; // Apuntador de tipo clase hacia el siguiente nodo
-
-        NodoLista(int dato) {
-            info = dato; // Guarda el dato recibido en el nodo actual
-            next = nullptr; // Se le asigna nullptr para que no apunte a una direccion basura
+        int get_first(){
+            return primero->info;
         }
+
+        void insertarInicio(int dato) {
+            NodoLista *nuevoNodo = new NodoLista(dato);
+            nuevoNodo -> next = primero;
+            primero = nuevoNodo;
+        }
+
+        void insertarFinal(int dato) {
+            NodoLista *nuevoNodo = new NodoLista(dato);
+            NodoLista *actual;
+            actual = primero;
+            if(primero == nullptr) { // La lista esta vacia
+                primero = nuevoNodo;
+            }
+            else{
+                while(actual -> next != nullptr) {
+                    actual = actual -> next;
+                    // Al terminal actual apunta al nodo final
+                }
+                actual -> next = nuevoNodo;
+            }
+        }
+
+        void insertarDespues(int dato, int k) {
+            NodoLista *nuevoNodo = new NodoLista(dato);
+            NodoLista *actual;
+            actual = primero;
+            
+            while (actual -> info != k) {
+                actual = actual -> next;
+                // al terminar, actual apunta al nodo que contiene el valor k
+            }
+            nuevoNodo -> next = actual -> next; // Muy importante que esto se haga primero
+            actual -> next = nuevoNodo;
+        }
+
 };
