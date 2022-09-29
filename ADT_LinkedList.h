@@ -145,6 +145,10 @@ class Lista {
             return primero->info;
         }
 
+        NodoLista* get_first_p(){
+            return primero;
+        }
+
         void insertarInicio(int dato) {
             NodoLista *nuevoNodo = new NodoLista(dato);
             nuevoNodo -> next = primero;

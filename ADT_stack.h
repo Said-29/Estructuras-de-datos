@@ -33,3 +33,11 @@ int Stack::top(){
     int v = datos.get_first();
     return v;
 }
+
+bool Stack::is_empty(){
+    if(datos.get_first_p() == nullptr){
+        return true;
+    } else {
+        return false;
+    }
+}
