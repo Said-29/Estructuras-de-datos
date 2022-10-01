@@ -14,11 +14,11 @@ class NodoLista {
 };
 
 // Clase Lista ligada
-class Lista {
+class Linked_list {
     private:
         NodoLista *primero; // Crea un pointer de clase NodoLista para el primer nodo
     public:
-        Lista() {
+        Linked_list() {
             primero = nullptr; // Se le asigna nullptr para que no apunte a una direccion basura
         }
 

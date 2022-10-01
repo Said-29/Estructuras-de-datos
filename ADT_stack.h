@@ -5,11 +5,9 @@
 
 using namespace std;
 
-#define MAX 50
-
 class Stack{
     private:
-        Lista datos;
+        Linked_list datos;
     public:
         Stack();
         void push(int);
