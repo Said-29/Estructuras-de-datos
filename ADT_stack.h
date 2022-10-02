@@ -5,35 +5,40 @@
 
 using namespace std;
 
+template <class T>
 class Stack{
     private:
-        Linked_list datos;
+        LinkedList<T> datos;
     public:
         Stack();
-        void push(int);
-        int top();
-        int pop();
+        void push(T);
+        T top();
+        T pop();
         bool is_empty();
-        bool is_full();
 };
 
-void Stack::push(int valor){
-    datos.insertarInicio(valor);
+template <class T>
+void Stack<T>::push(T valor){
+    datos.add_first(valor);
 }
 
-int Stack::pop(){
-    int v = datos.get_first();
+template <class T>
+T Stack<T>::pop(){
+    T v;
+    v = datos.get(0) -> info;
     datos.del(v);
     return v;
 }
 
-int Stack::top(){
-    int v = datos.get_first();
+template <class T>
+T Stack<T>::top(){
+    T v = datos.get(0);
     return v;
 }
 
-bool Stack::is_empty(){
-    if(datos.get_first_p() == nullptr){
+template <class T>
+bool Stack<T>::is_empty(){
+    if(datos.get(0) == nullptr){
         return true;
     } else {
         return false;
