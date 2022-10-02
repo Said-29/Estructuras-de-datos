@@ -1,187 +1,173 @@
 #pragma once
 #include <iostream>
+#include <fstream>
+
 using namespace std;
 
-class NodoLista {
-    public:
-        int info; // Variable donde guardaremos el dato que tendra este nodo
-        NodoLista *next; // Apuntador de tipo clase hacia el siguiente nodo
+//Clase Nodo
 
-        NodoLista(int dato) {
-            info = dato; // Guarda el dato recibido en el nodo actual
-            next = nullptr; // Se le asigna nullptr para que no apunte a una direccion basura
-        }
+template <class T>
+class Nodo{
+    public:
+        T info; //Dato guardado
+        Nodo *next; //Nodo hijo
+        Nodo(T);
 };
 
-// Clase Lista ligada
-class Linked_list {
+template <class T>
+Nodo<T>::Nodo(T dato){
+    info = dato;
+    next = nullptr;
+}
+
+//Clase lista ligada
+
+template <class T>
+class LinkedList{
     private:
-        NodoLista *primero; // Crea un pointer de clase NodoLista para el primer nodo
+        Nodo<T> *inicio; //Primer nodo de la lista
     public:
-        Linked_list() {
-            primero = nullptr; // Se le asigna nullptr para que no apunte a una direccion basura
+        LinkedList(); //Default Constructor
+        void fill(string); //Default Constructor con archivo de datos
+        void add(T); //Insertar dato al final de la lista
+        void add_first(T); //Insertar dato al inicio de la lista
+        Nodo<T> *buscar(T); //Busca un dato en la lista
+        Nodo<T> *get(int); //Obtiene nodo en cierta posicion
+        void show(); //Muestra la lista
+        bool del(T); //Elimina dato de la lista
+        bool replace_pos(int, T); //Reemplaza dato en cierta posicion
+};
+
+template <class T>
+LinkedList<T>::LinkedList(){
+    inicio = nullptr;
+}
+
+template <class T>
+void LinkedList<T>::fill(string file){
+    int n;
+    T dato;
+    ifstream miArchivo(file);
+
+    if(miArchivo.is_open()){
+        miArchivo >> n;
+        for(int i = 0; i < n; i++){
+            miArchivo >> dato;
+            add(dato);
         }
+        miArchivo.close();
+    } else {
+        cout << "No se puede abrir el archivo" << endl;
+    } 
+}
 
-        // Funcion para buscar un dato en la lista 
-        // Complejidad O(n)
-        NodoLista *read(int dato) {
-            NodoLista *actual; // Creamos un pointer de la clase NodoLista para la pos actual
-            actual = primero; // Guarda la direccion del primer nodo de la lista en actual
+template <class T>
+void LinkedList<T>::add(T dato){
+        Nodo<T> *nuevo_nodo = new Nodo(dato); // Nodo a insertar
 
-            // Mientras la direccion de actual no sea null
-            while(actual != nullptr) {
+        Nodo<T> *aux; // Creamos un nodo auxiliar
+        aux = inicio; // Guarda la direccion del primer nodo de la lista en el auxiliar
 
-                // Si la info del nodo actual es igual al dato que buscamos
-                if(actual -> info == dato) {
-                    return actual; // Regresamos la direccion del nodo
-                }
-                else { // Avanzamos hacia el siguiente nodo
-                    actual = actual -> next;
-                }
+        if(inicio == nullptr) { // Si lista esta vacia
+            inicio = nuevo_nodo; // El primero de la lista ahora tiene la direccion del nuevoNodo
+        }
+        else{
+            // Recorre la lista hasta llegar al final
+            while(aux -> next != nullptr) {
+                aux = aux -> next; // Avanzamos al siguiente nodo
             }
-            // Si el elemento buscado no esta en la lista ligada, regresa un valor nulo
+            // El nodo final ahora apunta al nuevoNodo
+            aux -> next = nuevo_nodo;
+        }
+}
+
+template <class T>
+void LinkedList<T>::add_first(T dato){
+    Nodo<T> *nuevo_nodo = new Nodo(dato);
+    nuevo_nodo -> next = inicio;
+    inicio = nuevo_nodo;
+}
+
+template <class T>
+Nodo<T> *LinkedList<T>::buscar(T dato){
+    Nodo<T> *auxiliar;
+    auxiliar = inicio;
+    while (auxiliar != nullptr){
+        if(auxiliar -> info == dato){
+            return auxiliar;
+        } else {
+            auxiliar = auxiliar -> next;
+        }   
+    }
+
+    return nullptr;
+}
+
+template <class T>
+Nodo<T> *LinkedList<T>::get(int pos){
+    Nodo<T> *aux;
+    aux = inicio;
+    for(int i = 0; i <= pos; i++){
+        if(aux == nullptr){
             return nullptr;
+        } else if (i == pos){
+            return aux;
         }
+        aux = aux -> next;
+    }
+    return nullptr;
+}
 
-        // Funcion create
-        // Complejidad O(n)
-        void create(int dato) {
-            // Creamos un pointer tipo NodoLista y guardamos el dato a insertar en
-            // memoria dinamica
-            NodoLista *nuevoNodo = new NodoLista(dato);
+template <class T>
+void LinkedList<T>::show(){
+    Nodo<T> *auxiliar;
+    auxiliar = inicio;
+    while (auxiliar != nullptr){
+        cout << auxiliar -> info << endl;
+        auxiliar = auxiliar -> next;
+    }
+}
 
-            NodoLista *actual; // Creamos un pointer de la clase NodoLista para la pos actual
-            actual = primero; // Guarda la direccion del primer nodo de la lista en actual
+template<class T>
+bool LinkedList<T>::del(T dato){
+    Nodo<T> *auxiliar, *elimina;
+    auxiliar = inicio;
 
-            if(primero == nullptr) { // La lista esta vacia
-                primero = nuevoNodo; // El primero de la lista ahora tiene la direccion del nuevoNodo
-            }
-            else{
-                // Mientras la direccion del siguiente nodo no sea null
-                while(actual -> next != nullptr) {
-                    actual = actual -> next; // Avanzamos al siguiente nodo
-                    // Al terminal actual apunta al nodo final
-                }
-                // El nodo final ahora apunta al nuevoNodo
-                actual -> next = nuevoNodo;
-            }
+    if(auxiliar == nullptr){
+        return false;
+
+    } else if(auxiliar -> info == dato){
+        inicio = auxiliar -> next;
+        delete(auxiliar);
+        return true;
+
+    } else {
+        while(auxiliar -> next != nullptr && (auxiliar -> next) -> info != dato){
+            auxiliar = auxiliar -> next;
         }
-
-        // Funcion del
-        // Complejidad: O(n)
-        bool del(int dato) {
-            // Creamos nuestro pointers tipo NodoLista
-            // para el nodo actual y el que vamos a borrar
-            NodoLista *actual, *elimina;
-            actual = primero; // Guarda la direccion del primer nodo de la lista en actual
-
-            // Si actual apunta a nada
-            if (actual == nullptr) {
-                return false; // La lista esta vacia
-            }
-
-            // Si actual tiene el dato que queremos borrar
-            if (actual -> info == dato) {
-                primero = actual -> next; // El primer nodo ahora es el siguiente del actual
-                delete(actual); // Borramos el nodo con el dato buscado
-                return true; // era el primero y se borra con exito
-            }
-
-            // Mientras que el nodo siguiente apunte algo diferente a null y este
-            // dato sea diferente al dato a eliminar, se avanza en la lista
-            while ((actual -> next != nullptr) && (actual -> next) -> info != dato) {
-                actual = actual -> next; // Se detiene en el nodo previo al borrar
-            }
-
-            // Si se llega al final de la lista
-            if (actual -> next == nullptr) {
-                return false; // El dato no se encuentra en la lista
-            }
-
-            elimina = actual -> next; // Elimina apunta al nodo siguiente del actual
-            actual -> next = elimina -> next; // El nodo actual apunta al siguiente del nodo a eliminar 
+        if(auxiliar -> next == nullptr){
+            return false;
+        } else {
+            elimina = auxiliar -> next; // Elimina apunta al nodo siguiente del actual
+            auxiliar -> next = elimina -> next; // El nodo actual apunta al siguiente del nodo a eliminar 
             delete(elimina); // Borramos el nodo a eliminar
+            return true;            
+        }
+    }
+}
+
+template <class T>
+bool LinkedList<T>::replace_pos(int pos, T dato){
+    Nodo<T> *aux;
+    aux = inicio;
+    for(int i = 0; i <= pos; i++){
+        if(aux == nullptr){
+            return false;
+        } else if (i == pos){
+            aux -> info = dato;
             return true;
         }
-
-        // Funcion update
-        // Complejidad O(n)
-        NodoLista *update(int original, int nuevo) {
-            NodoLista *actual; // Creamos un pointer de la clase NodoLista para la pos actual
-            actual = primero; // Guarda la direccion del primer nodo de la lista en actual
-
-            // Mientras la direccion de actual no sea null
-            while(actual != nullptr) {
-
-                // Si la info del nodo actual es igual al dato que buscamos
-                if(actual -> info == original) {
-                    actual -> info = nuevo; // Reemplazamos el dato por el nuevo
-                }
-                else { // Avanzamos hacia el siguiente nodo
-                    actual = actual -> next;
-                }
-            }
-            // Si el elemento buscado no esta en la lista ligada, regresa un valor nulo
-            return nullptr;
-        }
-
-        void imprimir() {
-            NodoLista *actual; // Creamos un pointer de la clase NodoLista para la pos actual
-            actual = primero; // Guarda la direccion del primer nodo de la lista en actual
-            int i = 1; // Contador de elementos
-
-            if(primero == nullptr) {
-                exit(0);
-            }
-
-            while(actual != nullptr) {
-                cout << "Elemento " << i  << ": " << actual -> info << endl;
-                actual = actual -> next;
-                i++;
-            }
-        }
-
-        int get_first(){
-            return primero->info;
-        }
-
-        NodoLista* get_first_p(){
-            return primero;
-        }
-
-        void insertarInicio(int dato) {
-            NodoLista *nuevoNodo = new NodoLista(dato);
-            nuevoNodo -> next = primero;
-            primero = nuevoNodo;
-        }
-
-        void insertarFinal(int dato) {
-            NodoLista *nuevoNodo = new NodoLista(dato);
-            NodoLista *actual;
-            actual = primero;
-            if(primero == nullptr) { // La lista esta vacia
-                primero = nuevoNodo;
-            }
-            else{
-                while(actual -> next != nullptr) {
-                    actual = actual -> next;
-                    // Al terminal actual apunta al nodo final
-                }
-                actual -> next = nuevoNodo;
-            }
-        }
-
-        void insertarDespues(int dato, int k) {
-            NodoLista *nuevoNodo = new NodoLista(dato);
-            NodoLista *actual;
-            actual = primero;
-            
-            while (actual -> info != k) {
-                actual = actual -> next;
-                // al terminar, actual apunta al nodo que contiene el valor k
-            }
-            nuevoNodo -> next = actual -> next; // Muy importante que esto se haga primero
-            actual -> next = nuevoNodo;
-        }
-
-};
+        aux = aux -> next;
+    }
+    return false;
+}
