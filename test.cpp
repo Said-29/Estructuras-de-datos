@@ -1,13 +1,16 @@
 #include <iostream>
-
+#include "ADT_Stack.h"
+#include "ADT_Queue.h"
 using namespace std;
 
 int main(){
-    int a = 5, *p;
-    p = new int;
-    *p = a;
-    a = *p + 2;
-    cout << a << " " << *p;
-    delete p;
+    Stack<int> data;
+    data.push(1);
+    data.push(2);
+    data.push(3);
+    data.show();
+    cout << "_____________" << endl;
+    data.pop();
+    data.show();
     return 0;
 }
