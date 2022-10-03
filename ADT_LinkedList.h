@@ -31,11 +31,12 @@ class LinkedList{
         void fill(string); //Default Constructor con archivo de datos
         void add(T); //Insertar dato al final de la lista
         void add_first(T); //Insertar dato al inicio de la lista
-        Nodo<T> *buscar(T); //Busca un dato en la lista
+        bool buscar(T); //Verifica si hay un dato en la lista
         Nodo<T> *get(int); //Obtiene nodo en cierta posicion
         void show(); //Muestra la lista
         bool del(T); //Elimina dato de la lista
-        bool replace_pos(int, T); //Reemplaza dato en cierta posicion
+        bool replace(int, T); //Reemplaza dato en cierta posicion
+        bool is_empty(); //Regresa true si la lista esta vacia
 };
 
 template <class T>
@@ -89,18 +90,18 @@ void LinkedList<T>::add_first(T dato){
 }
 
 template <class T>
-Nodo<T> *LinkedList<T>::buscar(T dato){
+bool LinkedList<T>::buscar(T dato){
     Nodo<T> *auxiliar;
     auxiliar = inicio;
     while (auxiliar != nullptr){
         if(auxiliar -> info == dato){
-            return auxiliar;
+            return true;
         } else {
             auxiliar = auxiliar -> next;
         }   
     }
 
-    return nullptr;
+    return false;
 }
 
 template <class T>
@@ -122,10 +123,15 @@ template <class T>
 void LinkedList<T>::show(){
     Nodo<T> *auxiliar;
     auxiliar = inicio;
-    while (auxiliar != nullptr){
-        cout << auxiliar -> info << endl;
-        auxiliar = auxiliar -> next;
+    if(auxiliar == nullptr){
+        cout << "No existen datos" << endl;
+    } else {
+        while (auxiliar != nullptr){
+            cout << auxiliar -> info << endl;
+            auxiliar = auxiliar -> next;
+        }
     }
+
 }
 
 template<class T>
@@ -157,7 +163,7 @@ bool LinkedList<T>::del(T dato){
 }
 
 template <class T>
-bool LinkedList<T>::replace_pos(int pos, T dato){
+bool LinkedList<T>::replace(int pos, T dato){
     Nodo<T> *aux;
     aux = inicio;
     for(int i = 0; i <= pos; i++){
@@ -170,4 +176,13 @@ bool LinkedList<T>::replace_pos(int pos, T dato){
         aux = aux -> next;
     }
     return false;
+}
+
+template <class T>
+bool LinkedList<T>::is_empty(){
+    if(inicio == nullptr){
+        return true;
+    } else {
+        return false;
+    }
 }
