@@ -34,7 +34,7 @@ T Stack<T>::pop(){
 
 template <class T>
 T Stack<T>::top(){
-    T v = datos.get(0);
+    T v = datos.get(0) -> info;
     return v;
 }
 
