@@ -150,21 +150,26 @@ int main(){
     cin >> clave;
 
     int pos = binary_search(barcos, clave);
+
+    cout << pos << endl;
+    show(barcos);
     
     if(pos == -1){
         cout << "Barco no encontrado!" << endl;
-        exit(1);
+        exit(0);
     }
 
     aux_barcos.push_back(barcos[pos]);
-    aux_clave = barcos[pos-count][0];
 
-    while(aux_clave.substr(0, 3) == clave){
-        aux_barcos.push_back(barcos[pos-count]);
-        count ++;
+    if(pos != 0){
         aux_clave = barcos[pos-count][0];
-    }
 
+        while(aux_clave.substr(0, 3) == clave){
+            aux_barcos.push_back(barcos[pos-count]);
+            count ++;
+            aux_clave = barcos[pos-count][0];
+        }
+    }
     count = 1;
     aux_clave = barcos[pos+count][0];
 

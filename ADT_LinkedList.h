@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <fstream>
+#include <vector>
 
 using namespace std;
 
@@ -34,9 +35,11 @@ class LinkedList{
         bool buscar(T); //Verifica si hay un dato en la lista
         Nodo<T> *get(int); //Obtiene nodo en cierta posicion
         void show(); //Muestra la lista
+        void show_vector(); //Muestra la lista de vectores
         bool del(T); //Elimina dato de la lista
         bool replace(int, T); //Reemplaza dato en cierta posicion
         bool is_empty(); //Regresa true si la lista esta vacia
+        int size(); //Regresa el tamano de la lista
 };
 
 template <class T>
@@ -131,7 +134,21 @@ void LinkedList<T>::show(){
             auxiliar = auxiliar -> next;
         }
     }
+}
 
+template <class T>
+void LinkedList<T>::show_vector(){
+    Nodo<T> *auxiliar;
+    auxiliar = inicio;
+    if(auxiliar == nullptr){
+        cout << "No existen datos" << endl;
+    } else {
+        while (auxiliar != nullptr){
+            vector<string> datos = auxiliar -> info;
+            cout << "Clave: " << datos[0] << " Fecha: " << datos[1] << " Entrada: " << datos[3] << endl;
+            auxiliar = auxiliar -> next;
+        }
+    }
 }
 
 template<class T>
@@ -185,4 +202,18 @@ bool LinkedList<T>::is_empty(){
     } else {
         return false;
     }
+}
+
+template <class T>
+int LinkedList<T>::size(){
+    Nodo<T> *aux;
+    aux = inicio;
+    int count = 0;
+
+    while (aux != nullptr) {
+        count++;
+        aux = aux -> next;
+    }
+    
+    return count;
 }

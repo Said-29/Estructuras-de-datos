@@ -1,16 +1,14 @@
 #include <iostream>
 #include "ADT_Stack.h"
 #include "ADT_Queue.h"
+#include "ADT_BST.h"
 using namespace std;
 
 int main(){
-    Stack<int> data;
-    data.push(1);
-    data.push(2);
-    data.push(3);
-    data.show();
-    cout << "_____________" << endl;
-    data.pop();
-    data.show();
+    BST<int> data;
+    int val, cont;
+    bool ans;
+    data.fill("numeros.txt");
+
     return 0;
 }
