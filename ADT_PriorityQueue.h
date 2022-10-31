@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -51,5 +52,5 @@ int PQ<T>::size_r(NodeT<T> *p){
     if(p == nullptr){
         return 0;
     }
-    return size_r(p -> get_left()) + size_r(get_right());
+    return size_r(p -> get_left()) + 1 + size_r(p -> get_right());
 }
